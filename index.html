@@ -943,49 +943,87 @@
 
 <script>
   // ── DOWNLOAD CV ──
-  function downloadCV() {
-    const btn = document.getElementById('downloadBtn');
+  async function downloadCV() {
+  const btn = document.getElementById('downloadBtn');
+
+  try {
     btn.classList.add('loading');
     btn.disabled = true;
 
-    // Make all hidden elements visible for PDF capture
+    // Hiện tất cả animation trước khi capture
     document.querySelectorAll('.reveal, .edu-item').forEach(el => {
       el.classList.add('visible');
     });
+
     document.querySelectorAll('.skill-fill').forEach(fill => {
       fill.style.transform = `scaleX(${fill.dataset.width})`;
     });
 
-    const element = document.body;
+    // Clone body để tránh lỗi fixed nav + animation
+    const clone = document.body.cloneNode(true);
+
+    // Xóa button download trong bản clone
+    const cloneBtn = clone.querySelector('#downloadBtn');
+    if (cloneBtn) cloneBtn.remove();
+
+    // Xóa nav fixed
+    const cloneNav = clone.querySelector('nav');
+    if (cloneNav) {
+      cloneNav.style.position = 'relative';
+      cloneNav.style.background = '#1A1A14';
+    }
+
+    // Tạo vùng tạm
+    const wrapper = document.createElement('div');
+    wrapper.style.position = 'fixed';
+    wrapper.style.left = '-99999px';
+    wrapper.style.top = '0';
+    wrapper.appendChild(clone);
+
+    document.body.appendChild(wrapper);
 
     const opt = {
       margin: 0,
-      filename: 'cv_le_thanh_huyen_thu.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale: 1.5,
-        useCORS: true,
-        letterRendering: true,
-        scrollX: 0,
-        scrollY: 0,
-        windowWidth: 1280
+      filename: 'Le_Thanh_Huyen_Thu_CV.pdf',
+
+      image: {
+        type: 'jpeg',
+        quality: 0.98
       },
+
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        scrollY: 0
+      },
+
       jsPDF: {
         unit: 'mm',
         format: 'a4',
         orientation: 'portrait'
       },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+
+      pagebreak: {
+        mode: ['css', 'legacy']
+      }
     };
 
-    html2pdf().set(opt).from(element).save().then(() => {
-      btn.classList.remove('loading');
-      btn.disabled = false;
-    }).catch(() => {
-      btn.classList.remove('loading');
-      btn.disabled = false;
-    });
+    await html2pdf()
+      .set(opt)
+      .from(clone)
+      .save();
+
+    wrapper.remove();
+
+  } catch (err) {
+    console.error(err);
+    alert('Download failed.');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
   }
+}
 
   // ── INTERSECTION OBSERVER ──
   const reveals = document.querySelectorAll('.reveal, .edu-item');
