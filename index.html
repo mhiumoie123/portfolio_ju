@@ -943,100 +943,49 @@
 
 <script>
   // ── DOWNLOAD CV ──
-<script>
-  // ── DOWNLOAD CV REAL PDF ──
   function downloadCV() {
     const btn = document.getElementById('downloadBtn');
-
     btn.classList.add('loading');
     btn.disabled = true;
 
-    const link = document.createElement('a');
-    <script> function downloadCV() {   window.open(     'https://mhiumoie123.github.io/cv/cv_le_thanh_huyen_thu.pdf',     '_blank'   ); } </script>
-    link.download = 'cv_le_thanh_huyen_thu.pdf';
+    // Make all hidden elements visible for PDF capture
+    document.querySelectorAll('.reveal, .edu-item').forEach(el => {
+      el.classList.add('visible');
+    });
+    document.querySelectorAll('.skill-fill').forEach(fill => {
+      fill.style.transform = `scaleX(${fill.dataset.width})`;
+    });
 
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const element = document.body;
 
-    setTimeout(() => {
+    const opt = {
+      margin: 0,
+      filename: 'cv_le_thanh_huyen_thu.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 1.5,
+        useCORS: true,
+        letterRendering: true,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: 1280
+      },
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait'
+      },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf().set(opt).from(element).save().then(() => {
       btn.classList.remove('loading');
       btn.disabled = false;
-    }, 1000);
+    }).catch(() => {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    });
   }
-
-  // ── INTERSECTION OBSERVER ──
-  const reveals = document.querySelectorAll('.reveal, .edu-item');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  reveals.forEach(el => observer.observe(el));
-
-  // ── SKILL BARS ──
-  const skillObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        document.querySelectorAll('.skill-fill').forEach((fill, i) => {
-          setTimeout(() => {
-            fill.style.transform = `scaleX(${fill.dataset.width})`;
-          }, i * 130);
-        });
-      }
-    });
-  }, { threshold: 0.3 });
-
-  const skillBars = document.querySelector('.skill-bars');
-
-  if (skillBars) {
-    skillObserver.observe(skillBars);
-  }
-
-  // ── STAGGER CARDS ──
-  document.querySelectorAll('.cert-card').forEach((card, i) => {
-    card.style.transitionDelay = `${i * 0.08}s`;
-  });
-
-  document.querySelectorAll('.exp-card').forEach((card, i) => {
-    card.style.transitionDelay = `${i * 0.1}s`;
-  });
-
-  document.querySelectorAll('.strength-card').forEach((card, i) => {
-    card.style.transitionDelay = `${i * 0.07}s`;
-  });
-
-  // ── SMOOTH SCROLL ──
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const target = document.querySelector(a.getAttribute('href'));
-
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({
-          behavior: 'smooth'
-        });
-      }
-    });
-  });
-
-  // ── NAV SCROLL ──
-  const nav = document.querySelector('nav');
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 80) {
-      nav.style.background = 'rgba(26,26,20,0.92)';
-      nav.style.backdropFilter = 'blur(12px)';
-    } else {
-      nav.style.background = 'transparent';
-      nav.style.backdropFilter = 'none';
-    }
-  });
-</script>
 
   // ── INTERSECTION OBSERVER ──
   const reveals = document.querySelectorAll('.reveal, .edu-item');
