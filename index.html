@@ -202,14 +202,24 @@
   animation: fadeIn 1.2s 0.5s ease forwards;
 }
 
+.hero-img-wrap {
+  width: 70%;
+  max-width: 340px;
+  aspect-ratio: 3/4;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  animation: fadeIn 1.2s 0.5s ease forwards;
+}
+
 .hero-img-wrap::before {
   content: '';
   position: absolute;
-
-  top: 14px;
-  left: 14px;
-  right: -14px;
-  bottom: -14px;
+  inset: 14px;
 
   border: 1px solid var(--gold);
   opacity: 0.35;
@@ -235,8 +245,7 @@
 
   object-fit: cover;
 
-  object-position: center top;
-
+object-position: center 20%;
   display: block;
 }
 
@@ -693,7 +702,6 @@
 </div>
 
 <div class="hero-scroll">Scroll</div>
-  <div class="hero-scroll">Scroll</div>
 </section>
 
 <!-- HIGHLIGHT BANNER -->
