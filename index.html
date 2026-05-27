@@ -206,16 +206,20 @@
     z-index: 0;
   }
 
-  .hero-photo-placeholder {
-    width: 100%; height: 100%;
-    background: linear-gradient(160deg, var(--olive) 0%, #2c3226 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 1;
-  }
+ .hero-photo {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
   .hero-photo-placeholder span {
     font-family: 'Cormorant Garamond', serif;
@@ -624,10 +628,9 @@
   <div class="hero-left">
     <div class="hero-tag">Personal Assistant &amp; Coordinator</div>
     <h1 class="hero-name">Lê Thanh<br><em>Huyền Thư</em></h1>
-    <p class="hero-desc">An organized mind with a proactive spirit — FTU Business English student, certified communicator, and dedicated coordinator with a passion for turning complexity into clarity. IELTS 7.5 · MOS Certified · Google Educator.</p>
+    <p class="hero-desc">An organized mind with a proactive spirit — FTU Business English student, certified communicator, and dedicated coordinator with a passion for turning complexity into clarity.</p>
     <div class="hero-badges">
       <span class="hero-badge">IELTS 7.5</span>
-      <div style="width: 100%"></div>
       <span class="hero-badge">MOS Certified</span>
       <span class="hero-badge">Google Certified</span>
       <span class="hero-badge">FTU · K64</span>
@@ -639,13 +642,26 @@
   </div>
   <div class="hero-right">
     <div class="hero-img-wrap">
-      <div class="hero-photo-placeholder">
-        <span>✦</span>
-        <div class="hero-stats-overlay">
-          <div class="hero-stat">
-            <div class="hero-stat-val">7.5</div>
-            <div class="hero-stat-lbl">IELTS</div>
-          </div>
+     <div class="hero-photo">
+  <img src="images/avatar.jpg" alt="Le Thanh Huyen Thu">
+
+  <div class="hero-stats-overlay">
+    <div class="hero-stat">
+      <div class="hero-stat-val">7.5</div>
+      <div class="hero-stat-lbl">IELTS</div>
+    </div>
+
+    <div class="hero-stat">
+      <div class="hero-stat-val">3+</div>
+      <div class="hero-stat-lbl">Certs</div>
+    </div>
+
+    <div class="hero-stat">
+      <div class="hero-stat-val">9.8</div>
+      <div class="hero-stat-lbl">Eng GPA</div>
+    </div>
+  </div>
+</div>
           <div class="hero-stat">
             <div class="hero-stat-val">3+</div>
             <div class="hero-stat-lbl">Certs</div>
